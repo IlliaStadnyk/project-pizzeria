@@ -65,11 +65,6 @@
 
     init: function () {
       const thisApp = this;
-      // console.log('*** App starting ***');
-      // console.log('thisApp:', thisApp);
-      // console.log('classNames:', classNames);
-      // console.log('settings:', settings);
-      // console.log('templates:', templates);
       thisApp.initData();
       thisApp.initMenu();
     },
@@ -85,7 +80,6 @@
       const thisProduct = this;
       thisProduct.id = id;
       thisProduct.data = data;
-      // console.log('new Profuct', thisProduct);
       thisProduct.renderInMenu();
       thisProduct.getElements();
       thisProduct.initAccordion();
@@ -120,23 +114,19 @@
       thisProduct.priceElem = thisProduct.element.querySelector(
         select.menuProduct.priceElem
       );
+      thisProduct.imageWrapper = thisProduct.element.querySelector(
+        select.menuProduct.imageWrapper
+      );
     }
 
     initAccordion() {
       const thisProduct = this;
-
-      // const clickableTrigger = thisProduct.element.querySelector(
-      //   select.menuProduct.clickable
-      // );
-      // console.log(clickableTrigger);
-      // console.log(thisProduct.accordionTrigger);
       thisProduct.accordionTrigger.addEventListener('click', function (event) {
         event.preventDefault();
         const activeProduct = document.querySelector('.product.active');
         if (activeProduct && activeProduct !== thisProduct.element) {
           activeProduct.classList.toggle('active');
         }
-        // console.log(thisProduct.element);
         thisProduct.element.classList.toggle('active');
       });
     }
@@ -166,23 +156,34 @@
       console.log(formData);
 
       let price = thisProduct.data.price;
-
+      console.log(thisProduct.imageWrapper);
       for (let paramId in thisProduct.data.params) {
         const param = thisProduct.data.params[paramId];
-        // console.log(param);
         for (let optionId in param.options) {
           const option = param.options[optionId];
-
+          const pictureOfOption = thisProduct.imageWrapper.querySelector(
+            `img.${paramId}-${optionId}`
+          );
+          console.log(pictureOfOption);
           if (formData[paramId] && formData[paramId].includes(optionId)) {
+            if (pictureOfOption) {
+              pictureOfOption.classList.add(
+                classNames.menuProduct.imageVisible
+              );
+            }
             if (!option.default) {
               price += option.price;
             }
           } else {
+            if (pictureOfOption) {
+              pictureOfOption.classList.remove(
+                classNames.menuProduct.imageVisible
+              );
+            }
             if (option.default) {
               price -= option.price;
             }
           }
-          // console.log(formData[paramId].option);
         }
       }
       thisProduct.priceElem.innerHTML = price;
