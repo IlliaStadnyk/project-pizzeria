@@ -367,11 +367,11 @@
 
     add(menuProduct) {
       // const thisCart = this;
-      // const generateHTML = templates.cartProduct(menuProduct);
+      const generateHTML = templates.cartProduct(menuProduct);
       // thisProduct.element = utils.createDOMFromHTML(generateHTML);
       // const menuContainer = document.querySelector(select.containerOf.menu);
       // menuContainer.appendChild(thisProduct.element);
-      console.log('menue product', menuProduct );
+      console.log('menue product', generateHTML );
     }
   }
   const app = {
