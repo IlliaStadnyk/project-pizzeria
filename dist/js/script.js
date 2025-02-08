@@ -6,6 +6,7 @@
   const select = {
     templateOf: {
       menuProduct: '#template-menu-product',
+      cartProduct: '#template-cart-product', // CODE ADDED
     },
     containerOf: {
       menu: '#product-list',
@@ -26,11 +27,32 @@
     },
     widgets: {
       amount: {
-        input: 'input[name="amount"]',
+        input: 'input.amount', // CODE CHANGED
         linkDecrease: 'a[href="#less"]',
         linkIncrease: 'a[href="#more"]',
       },
     },
+    // CODE ADDED START
+    cart: {
+      productList: '.cart__order-summary',
+      toggleTrigger: '.cart__summary',
+      totalNumber: `.cart__total-number`,
+      totalPrice:
+        '.cart__total-price strong, .cart__order-total .cart__order-price-sum strong',
+      subtotalPrice: '.cart__order-subtotal .cart__order-price-sum strong',
+      deliveryFee: '.cart__order-delivery .cart__order-price-sum strong',
+      form: '.cart__order',
+      formSubmit: '.cart__order [type="submit"]',
+      phone: '[name="phone"]',
+      address: '[name="address"]',
+    },
+    cartProduct: {
+      amountWidget: '.widget-amount',
+      price: '.cart__product-price',
+      edit: '[href="#edit"]',
+      remove: '[href="#remove"]',
+    },
+    // CODE ADDED END
   };
 
   const classNames = {
@@ -38,41 +60,33 @@
       wrapperActive: 'active',
       imageVisible: 'active',
     },
+    // CODE ADDED START
+    cart: {
+      wrapperActive: 'active',
+    },
+    // CODE ADDED END
   };
 
   const settings = {
     amountWidget: {
       defaultValue: 1,
-      defaultMin: 0,
-      defaultMax: 10,
+      defaultMin: 1,
+      defaultMax: 9,
+    }, // CODE CHANGED
+    // CODE ADDED START
+    cart: {
+      defaultDeliveryFee: 20,
     },
+    // CODE ADDED END
   };
 
   const templates = {
     menuProduct: Handlebars.compile(
       document.querySelector(select.templateOf.menuProduct).innerHTML
     ),
-  };
-
-  const app = {
-    initMenu: function () {
-      const thisApp = this;
-      console.log('thisApp.data: ', thisApp.data);
-      for (let productData in thisApp.data.products) {
-        new Product(productData, thisApp.data.products[productData]);
-      }
-    },
-
-    init: function () {
-      const thisApp = this;
-      thisApp.initData();
-      thisApp.initMenu();
-    },
-
-    initData: function () {
-      const thisApp = this;
-      thisApp.data = dataSource;
-    },
+    cartProduct: Handlebars.compile(
+      document.querySelector(select.templateOf.cartProduct).innerHTML
+    ),
   };
 
   class Product {
@@ -84,6 +98,7 @@
       thisProduct.getElements();
       thisProduct.initAccordion();
       thisProduct.initOrderForm();
+      thisProduct.initAmountWidget();
       thisProduct.processOrder();
     }
 
@@ -117,6 +132,17 @@
       thisProduct.imageWrapper = thisProduct.element.querySelector(
         select.menuProduct.imageWrapper
       );
+      thisProduct.amountWidgetElem = thisProduct.element.querySelector(
+        select.menuProduct.amountWidget
+      );
+    }
+
+    initAmountWidget() {
+      const thisProduct = this;
+      thisProduct.amountWidget = new AmountWidget(thisProduct.amountWidgetElem);
+      thisProduct.amountWidgetElem.addEventListener('update', () => {
+        thisProduct.processOrder();
+      });
     }
 
     initAccordion() {
@@ -153,10 +179,10 @@
     processOrder() {
       const thisProduct = this;
       const formData = utils.serializeFormToObject(thisProduct.form);
-      console.log(formData);
+      // console.log(formData);
 
       let price = thisProduct.data.price;
-      console.log(thisProduct.imageWrapper);
+      // console.log(thisProduct.imageWrapper);
       for (let paramId in thisProduct.data.params) {
         const param = thisProduct.data.params[paramId];
         for (let optionId in param.options) {
@@ -164,8 +190,10 @@
           const pictureOfOption = thisProduct.imageWrapper.querySelector(
             `img.${paramId}-${optionId}`
           );
-          console.log(pictureOfOption);
-          if (formData[paramId] && formData[paramId].includes(optionId)) {
+          // console.log(pictureOfOption);
+          const optionSelected =
+            formData[paramId] && formData[paramId].includes(optionId);
+          if (optionSelected) {
             if (pictureOfOption) {
               pictureOfOption.classList.add(
                 classNames.menuProduct.imageVisible
@@ -186,11 +214,134 @@
           }
         }
       }
+      // console.log(thisProduct.amountWidgetElem);
+      price *= thisProduct.amountWidget.value;
       thisProduct.priceElem.innerHTML = price;
-      console.log(price);
+      // console.log(price);
       console.log('---------------------------------------------------');
     }
   }
+
+  class AmountWidget {
+    constructor(element) {
+      const thisWidget = this;
+      thisWidget.getElements(element);
+      // console.log('AnountWidget', thisWidget);
+      // console.log('construcor elements', element);
+
+      thisWidget.setValue(thisWidget.input.value);
+      thisWidget.initActions();
+    }
+
+    getElements(element) {
+      const thisWidget = this;
+      thisWidget.element = element;
+      thisWidget.input = thisWidget.element.querySelector(
+        select.widgets.amount.input
+      );
+      thisWidget.linkDecrease = thisWidget.element.querySelector(
+        select.widgets.amount.linkDecrease
+      );
+      thisWidget.linkIncrease = thisWidget.element.querySelector(
+        select.widgets.amount.linkIncrease
+      );
+    }
+
+    setValue(value) {
+      const thisWidget = this;
+      const newValue = parseInt(value);
+      if (thisWidget.value !== newValue && !isNaN(newValue)) {
+        if (
+          newValue >= settings.amountWidget.defaultMin &&
+          newValue <= settings.amountWidget.defaultMax
+        ) {
+          thisWidget.value = newValue;
+          thisWidget.announce();
+        }
+      }
+      thisWidget.input.value = thisWidget.value;
+    }
+
+    initActions() {
+      const thisWidget = this;
+      thisWidget.input.addEventListener('change', function (event) {
+        event.preventDefault();
+        thisWidget.setValue(event.target.value);
+      });
+      thisWidget.linkDecrease.addEventListener('click', function (event) {
+        event.preventDefault();
+        thisWidget.setValue(thisWidget.value - 1);
+      });
+      thisWidget.linkIncrease.addEventListener('click', function (event) {
+        event.preventDefault();
+        thisWidget.setValue(thisWidget.value + 1);
+      });
+    }
+
+    announce() {
+      const thisWidget = this;
+      const event = new Event('update');
+      thisWidget.element.dispatchEvent(event);
+    }
+  }
+
+  class Cart {
+    constructor(element) {
+      const thisCart = this;
+
+      thisCart.products = [];
+      thisCart.getElements(element);
+      thisCart.initActions();
+      console.log('new cart', thisCart);
+    }
+    getElements(element) {
+      const thisCart = this;
+
+      thisCart.dom = {};
+
+      thisCart.dom.wrapper = element;
+
+      thisCart.dom.toggleTrigger = thisCart.dom.wrapper.querySelector(
+        select.cart.toggleTrigger
+      );
+
+      console.log(thisCart.dom.toggleTrigger);
+    }
+    initActions() {
+      const thisCart = this;
+      thisCart.dom.toggleTrigger.addEventListener('click', function (event) {
+        event.preventDefault();
+        thisCart.dom.wrapper.classList.toggle(classNames.cart.wrapperActive);
+      });
+    }
+  }
+  const app = {
+    initMenu: function () {
+      const thisApp = this;
+      // console.log('thisApp.data: ', thisApp.data);
+      for (let productData in thisApp.data.products) {
+        new Product(productData, thisApp.data.products[productData]);
+      }
+    },
+
+    initCart: function () {
+      const thisApp = this;
+      const cartElem = document.querySelector(select.containerOf.cart);
+      thisApp.cart = new Cart(cartElem);
+    },
+
+    init: function () {
+      const thisApp = this;
+      thisApp.initData();
+      thisApp.initCart();
+      thisApp.initMenu();
+    },
+
+    initData: function () {
+      const thisApp = this;
+      thisApp.data = dataSource;
+    },
+  };
 
   app.init();
 }
