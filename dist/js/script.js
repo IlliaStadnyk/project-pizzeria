@@ -107,8 +107,8 @@
 
       const generateHTML = templates.menuProduct(thisProduct.data);
       thisProduct.element = utils.createDOMFromHTML(generateHTML);
-      const menuContener = document.querySelector(select.containerOf.menu);
-      menuContener.appendChild(thisProduct.element);
+      const menuContainer = document.querySelector(select.containerOf.menu);
+      menuContainer.appendChild(thisProduct.element);
     }
 
     getElements() {
@@ -174,12 +174,13 @@
       thisProduct.cartButton.addEventListener('click', function (event) {
         event.preventDefault();
         thisProduct.processOrder();
+        thisProduct.addToCart();
       });
     }
     processOrder() {
       const thisProduct = this;
       const formData = utils.serializeFormToObject(thisProduct.form);
-      // console.log(formData);
+      // console.log(thisProduct);
 
       let price = thisProduct.data.price;
       // console.log(thisProduct.imageWrapper);
@@ -215,10 +216,58 @@
         }
       }
       // console.log(thisProduct.amountWidgetElem);
+      thisProduct.priceSingle = price;
       price *= thisProduct.amountWidget.value;
       thisProduct.priceElem.innerHTML = price;
       // console.log(price);
       console.log('---------------------------------------------------');
+    }
+    addToCart() {
+      const thisProduct = this;
+      // console.log(thisProduct.prepareCartProduct());
+      app.cart.add(thisProduct.prepareCartProduct());
+    }
+    prepareCartProduct() {
+      const thisProduct = this;
+      const productSummary = {};
+      productSummary.id = thisProduct.id;
+      productSummary.name = thisProduct.data.name;
+      productSummary.amount = thisProduct.amountWidget.value;
+      productSummary.params = thisProduct.prepareCartProductParams();
+      productSummary.priceSingle = thisProduct.priceSingle;
+      productSummary.price =
+        productSummary.priceSingle * productSummary.amount;
+      return productSummary;
+    }
+    prepareCartProductParams() {
+      const thisProduct = this;
+      console.log('prepareCartProductParams-thisProduct',thisProduct);
+
+      const formData = utils.serializeFormToObject(thisProduct.form);
+      const params = {};
+
+      // for very category (param)
+      for(let paramId in thisProduct.data.params) {
+        const param = thisProduct.data.params[paramId];
+
+        // create category param in params const eg. params = { ingredients: { name: 'Ingredients', options: {}}}
+        params[paramId] = {
+          label: param.label,
+          options: {}
+        }
+
+        // for every option in this category
+        for(let optionId in param.options) {
+          const option = param.options[optionId];
+          const optionSelected = formData[paramId] && formData[paramId].includes(optionId);
+
+          if(optionSelected) {
+            params[paramId].options[optionId] = option.label;
+          }
+        }
+      }
+      console.log('params',params);
+      return params;
     }
   }
 
@@ -304,8 +353,9 @@
       thisCart.dom.toggleTrigger = thisCart.dom.wrapper.querySelector(
         select.cart.toggleTrigger
       );
+      thisCart.dom.productList = thisCart.dom.wrapper.querySelector(select.cart.productList);
 
-      console.log(thisCart.dom.toggleTrigger);
+      // console.log(thisCart.dom.toggleTrigger);
     }
     initActions() {
       const thisCart = this;
@@ -313,6 +363,15 @@
         event.preventDefault();
         thisCart.dom.wrapper.classList.toggle(classNames.cart.wrapperActive);
       });
+    }
+
+    add(menuProduct) {
+      // const thisCart = this;
+      // const generateHTML = templates.cartProduct(menuProduct);
+      // thisProduct.element = utils.createDOMFromHTML(generateHTML);
+      // const menuContainer = document.querySelector(select.containerOf.menu);
+      // menuContainer.appendChild(thisProduct.element);
+      console.log('menue product', menuProduct );
     }
   }
   const app = {
