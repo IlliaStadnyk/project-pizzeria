@@ -381,7 +381,7 @@
 
     }
     remove(event) {
-
+    console.log("sos",event);
     }
     add(menuProduct) {
       const thisCart = this;
