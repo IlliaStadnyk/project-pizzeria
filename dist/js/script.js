@@ -145,7 +145,7 @@
     initAmountWidget() {
       const thisProduct = this;
       thisProduct.amountWidget = new AmountWidget(thisProduct.amountWidgetElem);
-      thisProduct.amountWidgetElem.addEventListener('update', () => {
+      thisProduct.amountWidgetElem.addEventListener('updated', () => {
         thisProduct.processOrder();
       });
     }
@@ -220,6 +220,7 @@
       thisProduct.priceSingle = price;
       price *= thisProduct.amountWidget.value;
       thisProduct.priceElem.innerHTML = price;
+      console.log('---------------------------------------------------');
     }
     addToCart() {
       const thisProduct = this;
