@@ -456,7 +456,7 @@
       thisCart.dom.deliveryFee.innerHTML = deliveryFee;
 
       for (const product of thisCart.products) {
-        totalNumber += 1;
+        totalNumber += product.amount;
         subtotalPrice += product.price;
       }
       thisCart.totalPrice = subtotalPrice;
