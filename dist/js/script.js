@@ -427,11 +427,7 @@
       cartProduct.dom.wrapper.remove();
       const indexOfCartProduct = thisCart.products.indexOf(cartProduct);
       if (indexOfCartProduct !== -1) {
-        const removedCartProduct = thisCart.products.splice(
-          indexOfCartProduct,
-          1
-        );
-        console.log(removedCartProduct);
+        thisCart.products.splice(indexOfCartProduct, 1);
       }
       thisCart.update();
     }
