@@ -55,6 +55,7 @@ class Cart {
         thisCart.dom.productList.addEventListener('remove', function (event) {
             thisCart.remove(event.detail.cartProduct);
         });
+        console.log( thisCart.dom.form);
         thisCart.dom.form.addEventListener('submit', function (event) {
             event.preventDefault();
             thisCart.sendOrder();
@@ -77,13 +78,13 @@ class Cart {
         for (let prod of thisCart.products) {
             payload.products.push(prod.getData());
         }
-        const options = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(payload),
-        };
+            const options = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payload),
+            };
 
         fetch(url, options)
             .then(function (response) {

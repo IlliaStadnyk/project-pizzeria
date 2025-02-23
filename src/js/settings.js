@@ -43,6 +43,11 @@ export const select = {
         peopleAmount: '.people-amount',
         hoursAmount: '.hours-amount',
         tables: '.floor-plan .table',
+        floorPlan: '.floor-plan',
+        orderConfirmation: '.booking-form',
+        phone: '[name="phone"]',
+        address: '[name="address"]',
+        starter: '[name="starter"]',
     },
     nav: {
         links: '.main-nav a',
@@ -83,6 +88,7 @@ export const classNames = {
     booking: {
         loading: 'loading',
         tableBooked: 'booked',
+        selected: 'selected',
     },
     nav: {
         active: 'active',
@@ -123,6 +129,7 @@ export const settings = {
     },
     booking: {
         tableIdAttribute: 'data-table',
+        table: 'table',
     },
 };
 
