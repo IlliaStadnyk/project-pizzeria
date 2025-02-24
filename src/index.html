@@ -13,9 +13,11 @@
       href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
       rel="stylesheet"
     />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"/>
     <link rel="stylesheet" href="vendor/range-slider.min.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css"/>
 
   </head>
   <body>
@@ -27,6 +29,7 @@
           <h2 class="logo__subtitle">the best homemade Italian food</h2>
         </div>
         <div class="main-nav">
+          <a href="#home">Home</a>
           <a href="#order">Order</a>
           <a href="#booking">Booking</a>
         </div>
@@ -68,6 +71,9 @@
   </header>
 
   <div id="pages">
+    <section id="home">
+      <div class="home-page container"></div>
+    </section>
     <section id="order">
       <div id="product-list" class="product-list container"></div>
     </section>
@@ -75,8 +81,92 @@
       <div class="booking-wrapper container"></div>
     </section>
   </div>
-
-    <script id="template-cart-product" type="text/x-handlebars-template">
+  <script id="template-home-page" type="text/x-handlebars-template">
+    <section class="home-page">
+      <div class="home">
+        <div class="start_section">
+          <div class="start__img left">
+            <div class="start-img-wrapper">
+              <div class="img-text">ORDER ONLINE</div>
+              <div class="extra-text">Click here to order</div>
+              <img src="images/home/assets/pizza-1.jpg" alt="image">
+            </div>
+          </div>
+          <div class="start__img right">
+            <div class="start-img-wrapper">
+              <div class="img-text">BOOK A TABLE</div>
+              <div class="extra-text">Click here to order</div>
+              <img src="images/home/assets/pizza-2.jpg" alt="image">
+            </div>
+          </div>
+        </div>
+        <div class="start__img_secondary">
+          <div class="start-img-wrapper-secondary">
+            <h2>OPENING HOURS:</h2>
+            <h3>TUE-SUN, 12PM - 12AM</h3>
+          </div>
+        </div>
+      </div>
+      <div class="carousel">
+        <div class="main-carousel" data-flickity='{ "cellAlign": "left", "contain": true, "autoPlay": 3000, "pauseAutoPlayOnHover": false  }'>
+          <div class="carousel-cell">
+            <div class="carousel-item">
+              <div class="carousel-item-img">
+                <img src="images/home/assets/pizza-4.jpg" alt="image">
+              </div>
+              <div class="carousel-item-text">
+                <h2>AMA</h2>
+                <p>Это пример текста, который занимает оставшееся пространство в блоке.</p>
+                <div class="carousel-item-text-author">Автор: Иван Иванов</div>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-cell">
+            <div class="carousel-item">
+              <div class="carousel-item-img">
+                <img src="images/home/assets/pizza-3.jpg" alt="image">
+              </div>
+              <div class="carousel-item-text">
+                <h2>Заголовок статьи</h2>
+                <p>Это пример текста, который занимает оставшееся пространство в блоке.</p>
+                <div class="carousel-item-text-author">Автор: Иван Иванов</div>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-cell">
+            <div class="carousel-item">
+              <div class="carousel-item-img">
+                <img src="images/home/assets/pizza-5.jpg" alt="image">
+              </div>
+              <div class="carousel-item-text">
+                <h2>Заголовок статьи</h2>
+                <p>Это пример текста, который занимает оставшееся пространство в блоке.</p>
+                <div class="carousel-item-text-author">Автор: Иван Иванов</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="social-photo">
+        <div class="social-photo-gallery">
+          {{#each socialPhotos}}
+            <div class="social-photo-item">
+              <div class="extra-action">
+              <div class="extra-action-icons left">
+                <a href="#"><i class="fa-solid fa-heart"></i></a>
+              </div>
+                <div class="extra-action-icons right">
+                 <a href="#"><i class="fa-solid fa-share"></i></a>
+                </div>
+              </div>
+              <img src="{{this.image}}" alt="social-photo">
+            </div>
+          {{/each}}
+        </div>
+      </div>
+      </section>
+  </script>
+  <script id="template-cart-product" type="text/x-handlebars-template">
       <li>
         <div class='widget-amount'>
           <!-- widget-amount -->
@@ -109,7 +199,7 @@
       </li>
     </script>
 
-    <script id="template-menu-product" type="text/x-handlebars-template">
+  <script id="template-menu-product" type="text/x-handlebars-template">
       <article class="product "> <!-- product -->
 
           <header class="product__header">
@@ -252,7 +342,9 @@
       </form>
     </div>
   </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.1.0/handlebars.min.js"></script>
+
+  <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.1.0/handlebars.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script src="vendor/range-slider.min.js"></script>
   <script src="js/app.js" type="module"></script>

@@ -18,6 +18,7 @@ class Product {
         const thisProduct = this;
 
         const generateHTML = templates.menuProduct(thisProduct.data);
+        // console.log(thisProduct.data);
         thisProduct.element = utils.createDOMFromHTML(generateHTML);
         const menuContainer = document.querySelector(select.containerOf.menu);
         menuContainer.appendChild(thisProduct.element);
@@ -127,7 +128,7 @@ class Product {
         thisProduct.priceSingle = price;
         price *= thisProduct.amountWidget.value;
         thisProduct.priceElem.innerHTML = price;
-        console.log('---------------------------------------------------');
+        // console.log('---------------------------------------------------');
     }
     addToCart() {
         const thisProduct = this;
