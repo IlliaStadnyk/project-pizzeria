@@ -129,7 +129,7 @@ class Booking {
   }
   updateDom() {
     const thisBooking = this;
-    console.log(2);
+    // console.log(2);
     thisBooking.date = thisBooking.datePicker.value;
     thisBooking.hour = utils.hourToNumber(thisBooking.hourPicker.value);
     if(thisBooking.selectedTable){
@@ -156,7 +156,7 @@ class Booking {
         !allAvailable &&
         thisBooking.booked[thisBooking.date][thisBooking.hour].includes(tableId)
       ) {
-        // console.log(thisBooking.booked);
+        // console.log(10);
         table.classList.add(classNames.booking.tableBooked);
       } else {
         // console.log(22);
@@ -298,7 +298,7 @@ class Booking {
       })
       .then(function (parsedResponse) {
         console.log(parsedResponse);
-        thisBooking.updateDom();
+        thisBooking.getData();
       });
   }
 
