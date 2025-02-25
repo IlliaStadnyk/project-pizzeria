@@ -42,6 +42,10 @@ const app = {
       thisApp.homePage = document.querySelector(select.containerOf.homePage);
 
       new Home(thisApp.homePage);
+
+      thisApp.homePage.addEventListener("redirect-page", function() {
+          thisApp.initPages();
+      })
   },
   activatePage: function(pageId) {
     const thisApp = this;

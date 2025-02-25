@@ -74,6 +74,10 @@ export const select = {
         edit: '[href="#edit"]',
         remove: '[href="#remove"]',
     },
+    homePage: {
+        startImage: '.start__img',
+        socialPhoto: '.social-photo .social-photo-gallery',
+    }
     // CODE ADDED END
 };
 

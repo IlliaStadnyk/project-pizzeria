@@ -129,7 +129,7 @@ class Booking {
   }
   updateDom() {
     const thisBooking = this;
-    // console.log(thisBooking.dom.tables);
+    console.log(2);
     thisBooking.date = thisBooking.datePicker.value;
     thisBooking.hour = utils.hourToNumber(thisBooking.hourPicker.value);
     if(thisBooking.selectedTable){
@@ -298,6 +298,7 @@ class Booking {
       })
       .then(function (parsedResponse) {
         console.log(parsedResponse);
+        thisBooking.updateDom();
       });
   }
 
