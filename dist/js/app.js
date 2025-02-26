@@ -7,6 +7,7 @@ import Home from "./components/Home.js";
 const app = {
   initPages: function() {
       const thisApp = this;
+      // console.log("app initPages");
       thisApp.pages = document.querySelector(select.containerOf.pages).children;
       thisApp.navLinks = document.querySelectorAll(select.nav.links);
       const idFromHash = window.location.hash.replace('#/','');
@@ -24,6 +25,7 @@ const app = {
               const clickedElement = this;
               event.preventDefault();
               const id = clickedElement.getAttribute("href").replace('#','');
+              console.log(id);
               thisApp.activatePage(id);
               // change URL hash
               window.location.hash = '#/'+id;
@@ -43,8 +45,13 @@ const app = {
 
       new Home(thisApp.homePage);
 
-      thisApp.homePage.addEventListener("redirect-page", function() {
-          thisApp.initPages();
+      thisApp.homePage.addEventListener("redirect-page", function(event) {
+          // console.log("redirect page", event.target.getAttribute("id"));
+          event.preventDefault();
+          const id = event.target.getAttribute("id");
+          console.log(id);
+          thisApp.activatePage(id);
+          window.location.hash = '#/'+id;
       })
   },
   activatePage: function(pageId) {

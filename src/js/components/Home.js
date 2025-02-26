@@ -52,7 +52,8 @@ class Home{
         });
         for(const img of thisHome.dom.startIamge){
             img.addEventListener("click", () => {
-                window.location.replace("http://localhost:3000/#/"+img.id);
+
+                // window.location.replace("http://localhost:3000/#/"+img.id);
                 img.dispatchEvent(event);
             })
         }
