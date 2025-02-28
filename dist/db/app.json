@@ -255,13 +255,5 @@
       "starters": ["lemonWater"]
     }
   ],
-  "bookings": [],
-  "images": [
-    { "image": "images/home/assets/pizza-4.jpg" },
-    { "image": "images/home/assets/pizza-5.jpg" },
-    { "image": "images/home/assets/pizza-6.jpg" },
-    { "image": "images/home/assets/pizza-7.jpg" },
-    { "image": "images/home/assets/pizza-8.jpg" },
-    { "image": "images/home/assets/pizza-9.jpg" }
-  ]
+  "bookings": []
 }

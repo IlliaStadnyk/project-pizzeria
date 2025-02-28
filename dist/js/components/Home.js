@@ -7,7 +7,7 @@ class Home{
         thisHome.render(element);
         thisHome.getElements(element);
         thisHome.iniAction();
-        thisHome.getData();
+        // thisHome.getData();
     }
 
     // addPhoto(socialPhotos){
@@ -16,25 +16,25 @@ class Home{
     //
     //
     // }
-    getData() {
-        const thisHome = this;
-        thisHome.images = {};
-        const url = settings.db.url + '/' + settings.db.images;
-        // console.log(url);
-        fetch(url)
-            .then(response => response.json())
-            .then(images => {
-                thisHome.images.socialPhotos = images;
-                // console.log(thisHome.images);
-            })
-            .catch(error => console.error(error));
-    }
+    // getData() {
+    //     const thisHome = this;
+    //     thisHome.images = {};
+    //     const url = settings.db.url + '/' + settings.db.images;
+    //     // console.log(url);
+    //     fetch(url)
+    //         .then(response => response.json())
+    //         .then(images => {
+    //             thisHome.images.socialPhotos = images;
+    //             // console.log(thisHome.images);
+    //         })
+    //         .catch(error => console.error(error));
+    // }
     render(element) {
         const thisHome = this;
         thisHome.dom = {};
         thisHome.dom.wrapper = element;
-
-        const generalHTML = templates.homePage();
+        thisHome.socialPhotos = settings.home.images;
+        const generalHTML = templates.homePage({socialPhotos: settings.home.images});
         thisHome.dom.wrapper.innerHTML = generalHTML;
 
     }

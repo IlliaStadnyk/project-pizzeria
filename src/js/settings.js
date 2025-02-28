@@ -116,7 +116,7 @@ export const settings = {
     },
     // CODE ADDED END
     db: {
-        url: '//localhost:3131',
+        url: '//localhost:3132',
         products: 'products',
         orders: 'orders',
         bookings: 'bookings',
@@ -138,6 +138,16 @@ export const settings = {
         tableIdAttribute: 'data-table',
         table: 'table',
     },
+    home:{
+        images: [
+            "images/home/assets/pizza-4.jpg",
+            "images/home/assets/pizza-5.jpg",
+            "images/home/assets/pizza-6.jpg",
+            "images/home/assets/pizza-7.jpg",
+            "images/home/assets/pizza-8.jpg",
+            "images/home/assets/pizza-9.jpg"
+        ]
+    }
 };
 
 export const templates = {

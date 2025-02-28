@@ -151,6 +151,7 @@
         <div class="social-photo-gallery">
           {{#each socialPhotos}}
             <div class="social-photo-item">
+              <div class="overlay"></div>
               <div class="extra-action">
               <div class="extra-action-icons left">
                 <a href="#"><i class="fa-solid fa-heart"></i></a>
@@ -159,7 +160,7 @@
                  <a href="#"><i class="fa-solid fa-share"></i></a>
                 </div>
               </div>
-              <img src="{{this.image}}" alt="social-photo">
+              <img src="{{this}}" alt="social-photo" >
             </div>
           {{/each}}
         </div>
