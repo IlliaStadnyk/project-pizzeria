@@ -10,25 +10,6 @@ class Home{
         // thisHome.getData();
     }
 
-    // addPhoto(socialPhotos){
-    //     const thisHome = this;
-    //     console.log(socialPhotos);
-    //
-    //
-    // }
-    // getData() {
-    //     const thisHome = this;
-    //     thisHome.images = {};
-    //     const url = settings.db.url + '/' + settings.db.images;
-    //     // console.log(url);
-    //     fetch(url)
-    //         .then(response => response.json())
-    //         .then(images => {
-    //             thisHome.images.socialPhotos = images;
-    //             // console.log(thisHome.images);
-    //         })
-    //         .catch(error => console.error(error));
-    // }
     render(element) {
         const thisHome = this;
         thisHome.dom = {};
